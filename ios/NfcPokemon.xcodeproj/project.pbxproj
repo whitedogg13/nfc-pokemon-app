@@ -41,6 +41,7 @@
 		48A4E6458020D2410AC6A537 /* Pods-NfcPokemon-NfcPokemonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NfcPokemon-NfcPokemonTests.release.xcconfig"; path = "Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NfcPokemon/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9E7378C79B1CF296147F98A0 /* Pods-NfcPokemon-NfcPokemonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NfcPokemon-NfcPokemonTests.debug.xcconfig"; path = "Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D6CA8C27263A5D39009694B3 /* NfcPokemon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = NfcPokemon.entitlements; path = NfcPokemon/NfcPokemon.entitlements; sourceTree = "<group>"; };
 		E80A15DAE6D8F9D63A46987C /* Pods-NfcPokemon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NfcPokemon.release.xcconfig"; path = "Target Support Files/Pods-NfcPokemon/Pods-NfcPokemon.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F6B41017AFCE4435FDE5AAE3 /* libPods-NfcPokemon.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NfcPokemon.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +87,7 @@
 		13B07FAE1A68108700A75B9A /* NfcPokemon */ = {
 			isa = PBXGroup;
 			children = (
+				D6CA8C27263A5D39009694B3 /* NfcPokemon.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -159,7 +161,6 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				0CE008CA4F68C47C6B73623C /* [CP] Embed Pods Frameworks */,
 				0653285E93DED992F20FD720 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -182,7 +183,6 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D8679334701CE0F78D1C9A35 /* [CP] Embed Pods Frameworks */,
 				CFF303ED170E520412A13BD4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -281,23 +281,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0CE008CA4F68C47C6B73623C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon-NfcPokemonTests/Pods-NfcPokemon-NfcPokemonTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		9A181B3E8B75A9055AC14326 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -357,23 +340,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon/Pods-NfcPokemon-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D8679334701CE0F78D1C9A35 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon/Pods-NfcPokemon-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon/Pods-NfcPokemon-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NfcPokemon/Pods-NfcPokemon-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -483,6 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NfcPokemon/NfcPokemon.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 25CCLYA564;
 				ENABLE_BITCODE = NO;
@@ -510,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = NfcPokemon/NfcPokemon.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 25CCLYA564;
 				INFOPLIST_FILE = NfcPokemon/Info.plist;

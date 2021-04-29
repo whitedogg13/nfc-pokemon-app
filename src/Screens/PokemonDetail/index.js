@@ -10,6 +10,7 @@ import {
 import {Button} from 'react-native-paper';
 import PokemonImage from '../../Components/PokemonImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as NfcProxy from '../../NfcProxy';
 
 function PokemonDetail(props) {
   const {navigation, route} = props;
@@ -28,16 +29,23 @@ function PokemonDetail(props) {
           />
         </View>
         <View style={styles.profile}>
-          <Text style={styles.profileTxt}>ATK: 100</Text>
-          <Text style={styles.profileTxt}>ATK: 100</Text>
-          <Text style={styles.profileTxt}>ATK: 100</Text>
-          <Text style={styles.profileTxt}>ATK: 100</Text>
+          <Text style={styles.profileTxt}>HP: {pokemon.hp}</Text>
+          <Text style={styles.profileTxt}>ATK: {pokemon.atk}</Text>
+          <Text style={styles.profileTxt}>DEF: {pokemon.def}</Text>
+          <Text style={styles.profileTxt}>SATK: {pokemon.satk}</Text>
+          <Text style={styles.profileTxt}>SDEF: {pokemon.sdef}</Text>
+          <Text style={styles.profileTxt}>SPD: {pokemon.spd}</Text>
         </View>
       </View>
 
       {allowCreate && (
         <View style={styles.center}>
-          <Button style={styles.btn} mode="contained">
+          <Button
+            style={styles.btn}
+            mode="contained"
+            onPress={() => {
+              NfcProxy.writePokemon(pokemon);
+            }}>
             CREATE
           </Button>
         </View>
