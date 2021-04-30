@@ -10,7 +10,8 @@ import {
 import {Button} from 'react-native-paper';
 import PokemonImage from '../../Components/PokemonImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import * as NfcProxy from '../../NfcProxy';
+import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+import writePokemon from '../../NfcUtils/writePokemon';
 
 function PokemonDetail(props) {
   const {navigation, route} = props;
@@ -43,8 +44,15 @@ function PokemonDetail(props) {
           <Button
             style={styles.btn}
             mode="contained"
-            onPress={() => {
-              NfcProxy.writePokemon(pokemon);
+            onPress={async () => {
+              try {
+                await NfcManager.requestTechnology(NfcTech.NfcA);
+                await writePokemon(pokemon);
+              } catch (ex) {
+                console.warn(ex);
+              } finally {
+                NfcManager.cancelTechnologyRequest();
+              }
             }}>
             CREATE
           </Button>

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
-import NfcManager from 'react-native-nfc-manager';
-import Image from '../../Components/Image';
 import {Button} from 'react-native-paper';
-import {PokemonMap} from '../../PokemonData';
+import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+import readPokemon from '../../NfcUtils/readPokemon';
+import Image from '../../Components/Image';
 
 function HomeScreen(props) {
   const {navigation} = props;
@@ -63,10 +63,18 @@ function HomeScreen(props) {
           <Button
             mode="contained"
             style={styles.btn}
-            onPress={() => {
-              navigation.navigate('Detail', {
-                pokemon: PokemonMap.Pikachu,
-              });
+            onPress={async () => {
+              try {
+                await NfcManager.requestTechnology(NfcTech.NfcA);
+                const pokemon = await readPokemon();
+                navigation.navigate('Detail', {
+                  pokemon,
+                });
+              } catch (ex) {
+                console.warn(ex);
+              } finally {
+                NfcManager.cancelTechnologyRequest();
+              }
             }}>
             Identify Pokemon
           </Button>
