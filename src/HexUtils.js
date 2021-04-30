@@ -1,5 +1,3 @@
-/* eslint-disable no-bitwise */
-
 function strToHex(src) {
   if (src.length > 64) {
     throw new Error('src must less than 64');
