@@ -4,6 +4,7 @@ import NfcManager from 'react-native-nfc-manager';
 async function writePokemon(pokemon) {
   let pageData;
   let respBytes = [];
+  let allBytes = [];
 
   // Page 4 (start from 0)
   // - 0, 1: serial number
@@ -16,6 +17,7 @@ async function writePokemon(pokemon) {
   pageData[3] = pokemon.type[1] || 0;
   respBytes = await NfcManager.nfcAHandler.transceive([0xa2, 4, ...pageData]);
   console.warn('page 4', pageData, respBytes);
+  allBytes = [...allBytes, ...pageData];
 
   // Page 5
   // - 0: hp
@@ -28,6 +30,7 @@ async function writePokemon(pokemon) {
   pageData[2] = pokemon.def;
   respBytes = await NfcManager.nfcAHandler.transceive([0xa2, 5, ...pageData]);
   console.warn('page 5', pageData, respBytes);
+  allBytes = [...allBytes, ...pageData];
 
   // Page 6
   // - 0: satk
@@ -40,6 +43,7 @@ async function writePokemon(pokemon) {
   pageData[2] = pokemon.spd;
   respBytes = await NfcManager.nfcAHandler.transceive([0xa2, 6, ...pageData]);
   console.warn('page 6', pageData, respBytes);
+  allBytes = [...allBytes, ...pageData];
 
   // Page 7 ~ N: the name of the pokemon
   let nameBytes = Array.from(pokemon.name).map((_, i) =>
@@ -63,9 +67,12 @@ async function writePokemon(pokemon) {
       ...pageData,
     ]);
     console.warn(`page ${pageIdx}`, pageData, respBytes);
+    allBytes = [...allBytes, ...pageData];
 
     pageIdx += 1;
   }
+
+  return allBytes;
 }
 
 export default writePokemon;
