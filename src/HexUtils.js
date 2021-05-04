@@ -1,6 +1,6 @@
 function strToHex(src) {
-  if (src.length > 64) {
-    throw new Error('src must less than 64');
+  if (src.length > 32) {
+    throw new Error('src must less than 32');
   }
 
   let result = '';
@@ -10,6 +10,25 @@ function strToHex(src) {
   }
 
   let padding = 64 - result.length;
+  while (padding > 0) {
+    result += '0';
+    padding -= 1;
+  }
+
+  return result;
+}
+
+function strToBytes(src) {
+  if (src.length > 32) {
+    throw new Error('src must less than 32');
+  }
+
+  let result = [];
+  for (const c of src) {
+    result.push(c.charCodeAt(0));
+  }
+
+  let padding = 32 - result.length;
   while (padding > 0) {
     result += '0';
     padding -= 1;
@@ -51,4 +70,4 @@ function hexToBytes(hex) {
   return bytes;
 }
 
-export {strToHex, bytesToHex, hexToBytes};
+export {strToHex, strToBytes, bytesToHex, hexToBytes};
