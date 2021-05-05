@@ -37,7 +37,7 @@ async function readPokemon() {
     return acc + String.fromCharCode(c);
   }, '');
 
-  return pokemon;
+  return [pokemon, tagData];
 }
 
 export default readPokemon;

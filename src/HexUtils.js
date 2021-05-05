@@ -1,58 +1,25 @@
 function strToHex(src) {
-  if (src.length > 32) {
-    throw new Error('src must less than 32');
-  }
-
   let result = '';
-  for (const c of src) {
-    const code = c.charCodeAt(0);
+  for (let i = 0; i < src.length; i++) {
+    const code = src.charCodeAt(i);
     result += ('00' + code.toString(16)).slice(-2);
   }
-
-  let padding = 64 - result.length;
-  while (padding > 0) {
-    result += '0';
-    padding -= 1;
-  }
-
   return result;
 }
 
 function strToBytes(src) {
-  if (src.length > 32) {
-    throw new Error('src must less than 32');
-  }
-
   let result = [];
-  for (const c of src) {
-    result.push(c.charCodeAt(0));
+  for (let i = 0; i < src.length; i++) {
+    result.push(src.charCodeAt(i));
   }
-
-  let padding = 32 - result.length;
-  while (padding > 0) {
-    result += '0';
-    padding -= 1;
-  }
-
   return result;
 }
 
 function bytesToHex(src) {
-  if (src.length > 32) {
-    throw new Error('src must less than 32');
-  }
-
   let result = '';
   for (const b of src) {
     result += ('00' + b.toString(16)).slice(-2);
   }
-
-  let padding = 64 - result.length;
-  while (padding > 0) {
-    result += '0';
-    padding -= 1;
-  }
-
   return result;
 }
 

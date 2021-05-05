@@ -49,28 +49,22 @@ async function writePokemon(pokemon) {
   let nameBytes = Array.from(pokemon.name).map((_, i) =>
     pokemon.name.charCodeAt(i),
   );
-  nameBytes.push(0);
-  let finished = false;
-  let pageIdx = 7;
-  while (!finished) {
-    if (nameBytes.length <= 4) {
-      finished = true;
-      pageData = [...nameBytes, 0, 0, 0].slice(0, 4);
-    } else {
-      pageData = nameBytes.slice(0, 4);
-      nameBytes = nameBytes.slice(4);
-    }
 
+  while (nameBytes.length < 20) {
+    nameBytes.push(0);
+  }
+
+  const namePageIdx = 7;
+  for (let i = 0; i < 5; i++) {
+    pageData = nameBytes.slice(4 * i, 4 * i + 4);
     respBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
-      pageIdx,
+      namePageIdx + i,
       ...pageData,
     ]);
-    console.warn(`page ${pageIdx}`, pageData, respBytes);
-    allBytes = [...allBytes, ...pageData];
-
-    pageIdx += 1;
+    console.warn(`page ${namePageIdx + i}`, pageData, respBytes);
   }
+  allBytes = [...allBytes, ...nameBytes];
 
   return allBytes;
 }

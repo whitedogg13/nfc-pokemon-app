@@ -1,8 +1,9 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
+import {Text, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
 import {Button} from 'react-native-paper';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import readPokemon from '../../NfcUtils/readPokemon';
+import verifySignature from '../../NfcUtils/verifySignature';
 import Image from '../../Components/Image';
 
 function HomeScreen(props) {
@@ -66,10 +67,17 @@ function HomeScreen(props) {
             onPress={async () => {
               try {
                 await NfcManager.requestTechnology(NfcTech.NfcA);
-                const pokemon = await readPokemon();
-                navigation.navigate('Detail', {
-                  pokemon,
-                });
+                const [pokemon, pokemonBytes] = await readPokemon();
+                const result = await verifySignature(pokemonBytes);
+                if (result) {
+                  navigation.navigate('Detail', {
+                    pokemon,
+                  });
+                } else {
+                  Alert.alert('Error', 'Signature Validation Fail!', [
+                    {text: 'OK'},
+                  ]);
+                }
               } catch (ex) {
                 console.warn(ex);
               } finally {

@@ -9,8 +9,8 @@ const publicKey = ec.keyFromPublic(keyPair.getPublic('array'), 'array');
 function sign(msgHex) {
   const signature = keyPair.sign(msgHex);
   return {
-    r: signature.r.toString(16),
-    s: signature.s.toString(16),
+    r: HexUtils.bytesToHex(signature.r.toArray()), // hex in length 64, so it's 32 bytes
+    s: HexUtils.bytesToHex(signature.s.toArray()),
   };
 }
 
