@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import writePokemon from '../../NfcUtils/writePokemon';
 import writeSignature from '../../NfcUtils/writeSignature';
+import ensurePasswordProtection from '../../NfcUtils/ensurePasswordProtection';
 
 function PokemonDetail(props) {
   const {navigation, route} = props;
@@ -121,6 +122,7 @@ function PokemonDetail(props) {
             onPress={async () => {
               try {
                 await NfcManager.requestTechnology(NfcTech.NfcA);
+                await ensurePasswordProtection();
                 const pokemonBytes = await writePokemon(pokemon);
                 await writeSignature(pokemonBytes);
               } catch (ex) {
