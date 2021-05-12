@@ -1,6 +1,6 @@
 import NfcManager from 'react-native-nfc-manager';
-import * as HexUtils from '../HexUtils';
-import * as Signer from '../Signer';
+import * as HexUtils from '../Utils/HexUtils';
+import * as Signer from '../Utils/Signer';
 
 async function writeSignature(pokemonBytes) {
   const tag = await NfcManager.getTag();

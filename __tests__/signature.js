@@ -1,5 +1,5 @@
-import * as HexUtils from '../src/HexUtils';
-import * as Signer from '../src/Signer';
+import * as HexUtils from '../src/Utils/HexUtils';
+import * as Signer from '../src/Utils/Signer';
 
 test('signature', async () => {
   const msgHex = HexUtils.bytesToHex([0x12, 0x34, 0xab, 0xcd]);

@@ -1,4 +1,4 @@
-import * as HexUtils from '../src/HexUtils';
+import * as HexUtils from '../src/Utils/HexUtils';
 
 test('hex utils', async () => {
   const hex1 = HexUtils.strToHex('abcd');
