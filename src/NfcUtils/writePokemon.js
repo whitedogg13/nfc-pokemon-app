@@ -6,7 +6,7 @@ async function writePokemon(pokemon) {
   let respBytes = [];
   let allBytes = [];
 
-  // Block 4 (start from 0)
+  // Block 4
   // - 0, 1: serial number
   // - 2: basic type
   // - 3: special type
@@ -55,9 +55,9 @@ async function writePokemon(pokemon) {
   allBytes = [...allBytes, ...blockData];
 
   // Block 7 ~ 11: the name of the pokemon
-  let nameBytes = Array.from(pokemon.name).map((_, i) =>
-    pokemon.name.charCodeAt(i),
-  );
+  let nameBytes = Array.from(pokemon.name).map((_, i) => {
+    return pokemon.name.charCodeAt(i);
+  });
 
   while (nameBytes.length < 20) {
     nameBytes.push(0);
@@ -71,7 +71,7 @@ async function writePokemon(pokemon) {
       nameBlockIdx + i,
       ...blockData,
     ]);
-    console.warn(`block ${nameBlockIdx + i}`, blockData, respBytes);
+    console.warn(`block ${nameBlockIdx + i}`, blockData);
     if (respBytes[0] !== 0xa) {
       throw new Error('fail to write');
     }
