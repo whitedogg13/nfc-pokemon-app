@@ -16,10 +16,9 @@ async function readPokemon() {
     throw new Error('fail to read');
   }
   tagData = [...tagData, ...respBytes];
-  console.warn(tagData);
 
   pokemon.no = (tagData[0] << 8) + tagData[1];
-  pokemon.type = [(tagData[2], tagData[3])];
+  pokemon.type = [tagData[2], tagData[3]];
   pokemon.hp = tagData[4];
   pokemon.atk = tagData[5];
   pokemon.def = tagData[6];
