@@ -7,8 +7,14 @@ async function readPokemon() {
   let respBytes = [];
 
   respBytes = await NfcManager.nfcAHandler.transceive([0x30, 4]);
+  if (respBytes.length !== 16) {
+    throw new Error('fail to read');
+  }
   tagData = [...tagData, ...respBytes];
   respBytes = await NfcManager.nfcAHandler.transceive([0x30, 8]);
+  if (respBytes.length !== 16) {
+    throw new Error('fail to read');
+  }
   tagData = [...tagData, ...respBytes];
   console.warn(tagData);
 
