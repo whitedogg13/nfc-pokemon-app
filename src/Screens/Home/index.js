@@ -1,13 +1,22 @@
 import React from 'react';
-import {Text, View, TouchableOpacity, StyleSheet, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Platform,
+} from 'react-native';
 import {Button} from 'react-native-paper';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import readPokemon from '../../NfcUtils/readPokemon';
 import verifySignature from '../../NfcUtils/verifySignature';
 import Image from '../../Components/Image';
+import AndroidPrompt from '../../Components/AndroidPrompt';
 
 function HomeScreen(props) {
   const {navigation} = props;
+  const androidPromptRef = React.useRef();
 
   const [hasNfc, setHasNfc] = React.useState(null);
   const [enabled, setEnabled] = React.useState(null);
@@ -65,6 +74,10 @@ function HomeScreen(props) {
             mode="contained"
             style={styles.btn}
             onPress={async () => {
+              if (Platform.OS === 'android') {
+                androidPromptRef.current.setVisible(true);
+              }
+
               try {
                 await NfcManager.requestTechnology(NfcTech.NfcA);
                 const [pokemon, pokemonBytes] = await readPokemon();
@@ -83,6 +96,10 @@ function HomeScreen(props) {
               } finally {
                 NfcManager.cancelTechnologyRequest();
               }
+
+              if (Platform.OS === 'android') {
+                androidPromptRef.current.setVisible(false);
+              }
             }}>
             Identify Pokemon
           </Button>
@@ -92,14 +109,20 @@ function HomeScreen(props) {
   }
 
   return (
-    <View style={[styles.wrapper, styles.center]}>
-      <Image
-        source={require('../../../images/pokeball.png')}
-        style={styles.banner}
-        resizeMode="contain"
+    <>
+      <View style={[styles.wrapper, styles.center]}>
+        <Image
+          source={require('../../../images/pokeball.png')}
+          style={styles.banner}
+          resizeMode="contain"
+        />
+        {renderNfcButtons()}
+      </View>
+      <AndroidPrompt
+        ref={androidPromptRef}
+        onCancelPress={() => NfcManager.cancelTechnologyRequest()}
       />
-      {renderNfcButtons()}
-    </View>
+    </>
   );
 }
 

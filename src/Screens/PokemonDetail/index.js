@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {Button} from 'react-native-paper';
 import PokemonImage from '../../Components/PokemonImage';
+import AndroidPrompt from '../../Components/AndroidPrompt';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import writePokemon from '../../NfcUtils/writePokemon';
@@ -17,6 +18,7 @@ import writeSignature from '../../NfcUtils/writeSignature';
 import ensurePasswordProtection from '../../NfcUtils/ensurePasswordProtection';
 
 function PokemonDetail(props) {
+  const androidPromptRef = React.useRef();
   const {navigation, route} = props;
   const {pokemon, allowCreate = false} = route.params;
   const [reveal, setReveal] = React.useState(allowCreate);
@@ -120,6 +122,10 @@ function PokemonDetail(props) {
             style={styles.btn}
             mode="contained"
             onPress={async () => {
+              if (Platform.OS === 'android') {
+                androidPromptRef.current.setVisible(true);
+              }
+
               try {
                 await NfcManager.requestTechnology(NfcTech.NfcA);
                 await ensurePasswordProtection();
@@ -129,6 +135,10 @@ function PokemonDetail(props) {
                 console.warn(ex);
               } finally {
                 NfcManager.cancelTechnologyRequest();
+              }
+
+              if (Platform.OS === 'android') {
+                androidPromptRef.current.setVisible(false);
               }
             }}>
             CREATE
@@ -144,6 +154,10 @@ function PokemonDetail(props) {
         <Icon name="chevron-left" size={30} />
       </TouchableOpacity>
 
+      <AndroidPrompt
+        ref={androidPromptRef}
+        onCancelPress={() => NfcManager.cancelTechnologyRequest()}
+      />
       <SafeAreaView />
     </View>
   );
