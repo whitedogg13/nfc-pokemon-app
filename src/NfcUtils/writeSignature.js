@@ -9,7 +9,7 @@ async function writeSignature(pokemonBytes) {
 
   const sig = Signer.sign(msgHex);
   console.warn('sig', sig);
-  const sigBytes = HexUtils.hexToBytes(sig.r + sig.s); // 64 bytes
+  const sigBytes = HexUtils.hexToBytes(sig.r + sig.s);
 
   const sigPageIdx = 12;
   for (let i = 0; i < sigBytes.length; i += 4) {
