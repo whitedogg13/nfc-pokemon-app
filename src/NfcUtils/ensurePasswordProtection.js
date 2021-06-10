@@ -1,43 +1,32 @@
+/* eslint-disable no-bitwise */
 import NfcManager from 'react-native-nfc-manager';
 
 const password = [0x12, 0x34, 0xab, 0xcd];
 const pack = [0xaa, 0xbb];
 
 async function ensurePasswordProtection() {
-  // read cc to check memory size, so we know it's 213 or 215
-  // check 0x83 to see if auth is set
-  // if set, do auth command with our password
-  // else, do:
-  //  1. config start page to protect
-  //  2. config to protect "WRITE"
-  //  3. set password
-  //  4. set pack
-  //  in reverse order
   let respBytes = null;
   let writeRespBytes = null;
+  let authPageIdx;
 
+  // check if this is NTAG 213 or NTAG 215
   respBytes = await NfcManager.nfcAHandler.transceive([0x30, 0]);
   const cc2 = respBytes[14];
-  console.warn('tagSize', cc2 * 8);
-  // TODO: check if it's NTAG 215 by tagSize
+  if (cc2 * 8 > 256) {
+    authPageIdx = 131; // NTAG 215
+  } else {
+    authPageIdx = 41; // NTAG 213
+  }
 
   // check if AUTH0 is enabled
-  respBytes = await NfcManager.nfcAHandler.transceive([0x30, 41]);
+  respBytes = await NfcManager.nfcAHandler.transceive([0x30, authPageIdx]);
   const auth0 = respBytes[3];
-  console.warn('auth0', auth0);
 
   if (auth0 === 255) {
-    // write password
+    // configure the tag to support password protection
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
-      43,
-      ...password,
-    ]);
-    console.warn(writeRespBytes);
-
-    writeRespBytes = await NfcManager.nfcAHandler.transceive([
-      0xa2,
-      44,
+      authPageIdx + 3,
       ...pack,
       respBytes[14],
       respBytes[15],
@@ -46,14 +35,31 @@ async function ensurePasswordProtection() {
 
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
-      41,
+      authPageIdx + 2,
+      ...password,
+    ]);
+    console.warn(writeRespBytes);
+
+    writeRespBytes = await NfcManager.nfcAHandler.transceive([
+      0xa2,
+      authPageIdx + 1,
+      respBytes[4] | 0x8,
+      respBytes[5],
+      respBytes[6],
+      respBytes[7],
+    ]);
+
+    writeRespBytes = await NfcManager.nfcAHandler.transceive([
+      0xa2,
+      authPageIdx,
       respBytes[0],
       respBytes[1],
       respBytes[2],
-      43,
+      4,
     ]);
     console.warn(writeRespBytes);
   } else {
+    // send password to NFC tags, so we can perform write operations
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0x1b,
       ...password,
