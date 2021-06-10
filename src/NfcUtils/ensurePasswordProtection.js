@@ -43,7 +43,7 @@ async function ensurePasswordProtection() {
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
       authPageIdx + 1,
-      respBytes[4] | 0x8,
+      respBytes[4] & 0x7f,
       respBytes[5],
       respBytes[6],
       respBytes[7],
