@@ -18,11 +18,11 @@ async function ensurePasswordProtection() {
     authPageIdx = 41; // NTAG 213
   }
 
-  // check if AUTH0 is enabled
+  // check if AUTH is enabled
   respBytes = await NfcManager.nfcAHandler.transceive([0x30, authPageIdx]);
-  const auth0 = respBytes[3];
+  const auth = respBytes[3];
 
-  if (auth0 === 255) {
+  if (auth === 255) {
     // configure the tag to support password protection
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
@@ -48,6 +48,7 @@ async function ensurePasswordProtection() {
       respBytes[6],
       respBytes[7],
     ]);
+    console.warn(writeRespBytes);
 
     writeRespBytes = await NfcManager.nfcAHandler.transceive([
       0xa2,
