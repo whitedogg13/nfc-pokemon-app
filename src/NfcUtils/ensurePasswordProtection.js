@@ -66,6 +66,9 @@ async function ensurePasswordProtection() {
       ...password,
     ]);
     console.warn(writeRespBytes);
+    if (writeRespBytes[0] !== pack[0] || writeRespBytes[1] !== pack[1]) {
+      throw new Error('incorrect password');
+    }
   }
 }
 
